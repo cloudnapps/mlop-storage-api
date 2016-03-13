@@ -1,0 +1,23 @@
+{
+  "name": "mlop-storage-api",
+  "version": "0.0.1",
+  "description": "micro location open platform storage api wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudnapps/mlop-storage-api.git"
+  },
+  "author": "GongXian Cao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudnapps/mlop-storage-api/issues"
+  },
+  "homepage": "https://github.com/cloudnapps/mlop-storage-api#readme",
+  "dependencies": {
+    "request": "^2.69.0",
+    "simple-token-client": "gongxiancao/simple-token-client"
+  }
+}
