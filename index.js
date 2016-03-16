@@ -43,18 +43,6 @@ function requestForm (method, url, options, formData, done) {
   });
 }
 
-function request (url, method, options, done) {
-  var opts = {
-      url: url,
-      method: method,
-      proxy: false,
-      followRedirect: false
-    };
-  opts = _.merge(opts, options);
-
-  request(opts, jsonResponseHandler(done));
-}
-
 function postFile (url, options, formData, files, done) {
   _.each(files, function (val, key) {
     formData[key] = fs.createReadStream(val);
@@ -82,6 +70,22 @@ StorageApi.prototype.createFile = function (bucket, path, file, done) {
         file: file.path
       },
       done);
+  });
+};
+
+
+StorageApi.prototype.getFile = function (url, done) {
+  var self = this;
+  self.tokenClient.getToken(function (err, token) {
+    if(err) {
+      return done(new Error('failed to get access token:' + err.message));
+    }
+    done(null, request({
+      url: url,
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }));
   });
 };
 
