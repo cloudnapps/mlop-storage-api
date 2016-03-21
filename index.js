@@ -101,7 +101,7 @@ StorageApi.prototype.downloadFile = function (url, done) {
       res.pipe(writeStream);
 
       writeStream
-      .on('end', function () {
+      .on('finish', function () {
         done(null, saveAs);
       })
       .on('error', done);
