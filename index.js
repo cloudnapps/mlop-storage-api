@@ -92,8 +92,9 @@ StorageApi.prototype.downloadFile = function (url, done) {
         Authorization: 'Bearer ' + token
       }
     }).on('response', function (res) {
-      var filename = filenamePattern.exec(res.headers['content-disposition'])[1];
-      var extname = pathUtil.extname(filename);
+      var contentDisposition = res.headers['content-disposition'];
+      var filename = contentDisposition ? (filenamePattern.exec(contentDisposition) || [])[1] : '';
+      var extname = pathUtil.extname(filename || '');
       var saveAs = pathUtil.join(self.downloadDir, uuid.v4() + extname);
       var writeStream = fs.createWriteStream(saveAs);
 
