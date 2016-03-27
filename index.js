@@ -32,7 +32,7 @@ function jsonResponseHandler (done) {
   };
 }
 
-function requestForm (method, url, options, formData, done) {
+function requestForm (method, url, options, formData, files, done) {
   var opts = {
     url: url,
     proxy: false
@@ -45,13 +45,13 @@ function requestForm (method, url, options, formData, done) {
   _.each(formData, function (val, key) {
     form.append(key, val);
   });
+  _.each(files, function (val, key) {
+    form.append(key, fs.createReadStream(val.path), {filename: val.filename});
+  });
 }
 
 function postFile (url, options, formData, files, done) {
-  _.each(files, function (val, key) {
-    formData[key] = fs.createReadStream(val);
-  });
-  requestForm('post', url, options, formData, done);
+  requestForm('post', url, options, formData, files, done);
 }
 
 StorageApi.prototype.uploadFile = function (bucket, path, file, done) {
@@ -71,7 +71,10 @@ StorageApi.prototype.uploadFile = function (bucket, path, file, done) {
         path: path
       },
       {
-        file: file.path
+        file: {
+          path: file.path,
+          filename: file.originalFilename
+        }
       },
       done);
   });
