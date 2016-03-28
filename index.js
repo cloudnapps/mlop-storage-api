@@ -32,15 +32,14 @@ function jsonResponseHandler (done) {
   };
 }
 
-function requestForm (method, url, options, formData, files, done) {
+function postFile (url, options, formData, files, done) {
   var opts = {
     url: url,
     proxy: false
   };
   opts = _.merge(opts, options);
-  method = method.toLowerCase();
 
-  var req = request[method](opts, jsonResponseHandler(done));
+  var req = request['post'](opts, jsonResponseHandler(done));
   var form = req.form();
   _.each(formData, function (val, key) {
     form.append(key, val);
@@ -48,10 +47,6 @@ function requestForm (method, url, options, formData, files, done) {
   _.each(files, function (val, key) {
     form.append(key, fs.createReadStream(val.path), {filename: val.filename});
   });
-}
-
-function postFile (url, options, formData, files, done) {
-  requestForm('post', url, options, formData, files, done);
 }
 
 StorageApi.prototype.uploadFile = function (bucket, path, file, done) {
