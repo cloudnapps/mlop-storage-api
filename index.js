@@ -95,7 +95,6 @@ StorageApi.prototype.downloadFile = function (url, done) {
       var extname = pathUtil.extname(filename || '');
       var saveAs = pathUtil.join(self.downloadDir, uuid.v4() + extname);
       var writeStream = fs.createWriteStream(saveAs);
-
       res.pipe(writeStream);
 
       writeStream
@@ -103,7 +102,8 @@ StorageApi.prototype.downloadFile = function (url, done) {
         done(null, saveAs);
       })
       .on('error', done);
-    });
+    })
+    .on('error', done);
   });
 };
 
