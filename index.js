@@ -90,6 +90,10 @@ StorageApi.prototype.downloadFile = function (url, done) {
         Authorization: 'Bearer ' + token
       }
     }).on('response', function (res) {
+      if(res.statusCode !== 200) {
+        return done(new Error('download file get status:' + res.statusCode));
+      }
+
       var contentDisposition = res.headers['content-disposition'];
       var filename = contentDisposition ? (filenamePattern.exec(contentDisposition) || [])[1] : '';
       var extname = pathUtil.extname(filename || '');
