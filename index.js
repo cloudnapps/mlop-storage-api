@@ -49,7 +49,7 @@ function postFile (url, options, formData, files, done) {
   });
 }
 
-StorageApi.prototype.uploadFile = function (bucket, path, file, done) {
+StorageApi.prototype.uploadFile = function (bucket, path, file, userinfo, done) {
   var self = this;
   self.tokenClient.getToken(function (err, token) {
     if(err) {
@@ -63,7 +63,8 @@ StorageApi.prototype.uploadFile = function (bucket, path, file, done) {
       },
       {
         bucket: bucket,
-        path: path
+        path: path,
+        userinfo: userinfo
       },
       {
         file: {
