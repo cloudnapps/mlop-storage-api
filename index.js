@@ -64,7 +64,7 @@ StorageApi.prototype.uploadFile = function (bucket, path, file, userinfo, done) 
       {
         bucket: bucket,
         path: path,
-        userinfo: userinfo
+        userinfo: JSON.stringify(userinfo)
       },
       {
         file: {
