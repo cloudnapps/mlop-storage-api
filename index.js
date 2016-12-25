@@ -3,7 +3,8 @@ var request = require('request'),
   SimpleTokenClient = require('simple-token-client'),
   os = require('os'),
   pathUtil = require('path'),
-  uuid = require('node-uuid');
+  uuid = require('node-uuid'),
+  urlUtil = require('url');
 
 function StorageApi (config) {
   this.config = config;
@@ -110,6 +111,23 @@ StorageApi.prototype.downloadFile = function (url, done) {
     })
     .on('error', done);
   });
+};
+
+StorageApi.prototype.fileUri = function (file) {
+  var urlObj = urlUtil.parse(self.config.endpoint);
+  var bucket = file.metadata.bucket;
+  var path = file.metadata.path;
+  var filename = req.query.filename || 'data.xlsx';
+
+  if (!bucket || !path) {
+    throw new Error('no bucket or path');
+  }
+
+  delete urlObj.host;
+  urlObj.hostname = bucket + '.' + urlObj.hostname;
+  urlObj.pathname = path;
+
+  return urlUtil.format(urlObj);
 };
 
 StorageApi.prototype.queryFile = function (options, done) {
