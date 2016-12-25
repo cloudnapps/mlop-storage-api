@@ -123,7 +123,7 @@ StorageApi.prototype.queryFile = function (options, done) {
     var url = self.config.endpoint + '/api/v1/file';
 
     url += '?skip=' + options.skip + '&limit=' + options.limit +
-      'where=' + JSON.stringify(options.where);
+      '&where=' + JSON.stringify(options.where) + '&sort=' + (options.sort ? JSON.stringify(options.sort) : '');
 
     var tokenClient = new SimpleTokenClient(framework.config.connections.storage);
 
