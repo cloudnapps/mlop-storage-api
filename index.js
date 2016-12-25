@@ -112,4 +112,39 @@ StorageApi.prototype.downloadFile = function (url, done) {
   });
 };
 
+StorageApi.prototype.queryFile = function (options, done) {
+  var self = this;
+
+  self.tokenClient.getToken(function (err, token) {
+    if(err) {
+      return done(new Error('failed to get access token:' + err.message));
+    }
+
+    var url = self.config.endpoint + '/api/v1/file';
+
+    url += '?skip=' + options.skip + '&limit=' + options.limit +
+      'where=' + JSON.stringify(options.where);
+
+    var tokenClient = new SimpleTokenClient(framework.config.connections.storage);
+
+    request({
+      url: url,
+      json: true,
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    },function (error, response, body) {
+      if (error) {
+        return done(new Error('failed to query file:' + err.message));
+      }
+
+      if(response.statusCode !== 200) {
+        return done(new Error('failed to query file, status:' + response.statusCode + ', body:' + body));
+      }
+
+      done(null, body);
+    });
+  });
+};
+
 module.exports = StorageApi;
