@@ -114,10 +114,9 @@ StorageApi.prototype.downloadFile = function (url, done) {
 };
 
 StorageApi.prototype.fileUri = function (file) {
-  var urlObj = urlUtil.parse(self.config.endpoint);
+  var urlObj = urlUtil.parse(this.config.endpoint);
   var bucket = file.metadata.bucket;
   var path = file.metadata.path;
-  var filename = req.query.filename || 'data.xlsx';
 
   if (!bucket || !path) {
     throw new Error('no bucket or path');
