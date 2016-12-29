@@ -18,7 +18,7 @@
   "homepage": "https://github.com/cloudnapps/mlop-storage-api#readme",
   "dependencies": {
     "request": "2.69.0",
-    "simple-token-client": "gongxiancao/simple-token-client",
+    "simple-token-client": "1.0.0",
     "node-uuid": "1.4.7"
   }
 }
